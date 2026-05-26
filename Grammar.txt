@@ -1,0 +1,63 @@
+<Program> ::= { <Statement> }
+
+<Statement> ::= <Declaration>
+              | <Assignment>
+              | <IfStatement>
+
+<Declaration> ::= <DataType> <Identifier> [ "=" <Expression> | <StringLiteral> ] ";"
+
+<DataType> ::= "সংখ্যা" | "লেখা"
+
+
+<Assignment> ::= <Identifier> "=" <Expression> ";"
+               | <Identifier> "=" <StringLiteral> ";"
+
+
+
+<IfStatement> ::= "যদি" "(" <Condition> ")" <StatementList> [ "না" <StatementList> ]
+
+
+<StatementList> ::= <Statement> { <Statement> }
+
+
+<Condition> ::= <Expression> <RelOp> <Expression>
+              | <Condition> "এবং" <Condition>
+
+<RelOp> ::= ">" | "<"
+
+
+
+<Expression> ::= <Term> { ("+" | "-") <Term> }
+
+<Term> ::= <Factor> { ("*" | "/") <Factor> }
+
+
+<Factor> ::= <Number>
+           | <Identifier>
+           | "(" <Expression> ")"
+
+
+<Identifier> ::= Letter { Letter | Digit | "_" }
+
+
+<Number> ::= Digit+
+
+<StringLiteral> ::= "\"" any_character* "\""
+
+
+সংখ্যা   → Data Type (int)
+লেখা     → Data Type (string)
+যদি      → IF
+না       → ELSE
+এবং      → AND (&&)
+
+
++   addition
+-   subtraction
+*   multiplication
+/   division
+>   greater than
+<   less than
+=   assignment
+
+
