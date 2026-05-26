@@ -1,16 +1,63 @@
-BANGLA COMPILER - FORMAL GRAMMAR (BNF)
+<Program> ::= { <Statement> }
 
-PROJECT TYPE: Context-Free Grammar (CFG)
-PARSING TECHNIQUE: Recursive Descent (Top-Down)
+<Statement> ::= <Declaration>
+              | <Assignment>
+              | <IfStatement>
+
+<Declaration> ::= <DataType> <Identifier> [ "=" <Expression> | <StringLiteral> ] ";"
+
+<DataType> ::= "সংখ্যা" | "লেখা"
 
 
-Grammar Rules: 
+<Assignment> ::= <Identifier> "=" <Expression> ";"
+               | <Identifier> "=" <StringLiteral> ";"
 
-<Statement>    ::= <DataType> <Identifier> [ "=" <Expression> ] ";"
-<DataType>     ::= "সংখ্যা" | "লেখা"
-<Expression>   ::= <Term> { ("+" | "-") <Term> }
-<Term>         ::= <Factor> { ("*" | "/") <Factor> }
-<Factor>       ::= <Number> | <StringLiteral>
 
-Note: This grammar ensures Operator Precedence 
-(Multiplication/Division before Addition/Subtraction).
+
+<IfStatement> ::= "যদি" "(" <Condition> ")" <StatementList> [ "না" <StatementList> ]
+
+
+<StatementList> ::= <Statement> { <Statement> }
+
+
+<Condition> ::= <Expression> <RelOp> <Expression>
+              | <Condition> "এবং" <Condition>
+
+<RelOp> ::= ">" | "<"
+
+
+
+<Expression> ::= <Term> { ("+" | "-") <Term> }
+
+<Term> ::= <Factor> { ("*" | "/") <Factor> }
+
+
+<Factor> ::= <Number>
+           | <Identifier>
+           | "(" <Expression> ")"
+
+
+<Identifier> ::= Letter { Letter | Digit | "_" }
+
+
+<Number> ::= Digit+
+
+<StringLiteral> ::= "\"" any_character* "\""
+
+
+সংখ্যা   → Data Type (int)
+লেখা     → Data Type (string)
+যদি      → IF
+না       → ELSE
+এবং      → AND (&&)
+
+
++   addition
+-   subtraction
+*   multiplication
+/   division
+>   greater than
+<   less than
+=   assignment
+
+

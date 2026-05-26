@@ -3,50 +3,88 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class Main {
+
     public static void main(String[] args) {
-        String fileName = "test_code.txt"; 
-        SymbolTable symbolTable = new SymbolTable(); 
-        
+
+        String fileName = "test_code.txt";
+
+        SymbolTable symbolTable = new SymbolTable();
+
+        CodeGenerator codeGenerator =
+                new CodeGenerator();
+
+        Parser parser = null;
+
+        System.out.println(
+            "--- Bangla Compiler: Review 3 ---"
+        );
+
         try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8))) {
-            
+                new InputStreamReader(
+                        new FileInputStream(fileName),
+                        StandardCharsets.UTF_8))) {
+
             String line;
-            System.out.println("--- Bangla Compiler: Review 1 Demo ---");
-            
+
             while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;
 
-                System.out.println("\n>>> Processing Line: " + line);
-                
-     
+                if (line.trim().isEmpty())
+                    continue;
 
-       
-Lexer lexer = new Lexer(line);
-List<Token> tokens = lexer.tokenize();
+                System.out.println(
+                    "\n>>> Processing Line: " + line
+                );
 
+                Lexer lexer = new Lexer(line);
 
-System.out.println("Tokens generated:");
+                List<Token> tokens =
+                        lexer.tokenize();
 
+                System.out.println(
+                    "Tokens generated:"
+                );
 
-for (Token token : tokens) {
-    System.out.println("  -> " + token); 
-}
+                for (Token token : tokens) {
 
+                    System.out.println(
+                        "  -> " + token
+                    );
+                }
 
-try {
-    Parser parser = new Parser(tokens, symbolTable);
-    parser.parse(); 
-} catch (RuntimeException e) {
-    System.out.println("Error: " + e.getMessage());
-}
+                try {
+
+                    parser = new Parser(
+                        tokens,
+                        symbolTable,
+                        codeGenerator
+                    );
+
+                    parser.parse();
+
+                } catch (RuntimeException e) {
+
+                    System.out.println(
+                        "Error: " + e.getMessage()
+                    );
+                }
             }
-            
-        
+
+            codeGenerator.finalizeCode();
+
+            codeGenerator.printCode();
+
             symbolTable.printTable();
-            System.out.println("\n--- Compilation Finished ---");
-            
+
+            System.out.println(
+                "\n--- Compilation Finished ---"
+            );
+
         } catch (IOException e) {
-            System.out.println("Error: 'test_code.txt' file not found!");
+
+            System.out.println(
+                "Error: File not found -> "
+                + fileName
+            );
         }
     }
 }

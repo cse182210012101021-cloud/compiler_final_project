@@ -44,10 +44,10 @@ public class Lexer {
 
 
             if (!Character.isWhitespace(current) && !Character.isDigit(current) && 
-                "=+;-/*;\"".indexOf(current) == -1) {
+                "=+;-()/*;\"".indexOf(current) == -1) {
                 StringBuilder word = new StringBuilder();
                 while (pos < length && !Character.isWhitespace(input.charAt(pos)) && 
-                       "=+;-/*;\"".indexOf(input.charAt(pos)) == -1) {
+                      "=+;-()/*;\"".indexOf(input.charAt(pos)) == -1) {
                     word.append(input.charAt(pos));
                     pos++;
                 }
@@ -55,11 +55,27 @@ public class Lexer {
                 String result = word.toString();
                 if (result.equals("সংখ্যা") || result.equals("লেখা")) {
                     tokens.add(new Token(TokenType.DATA_TYPE, result));
-                } else {
+                } 
+                 // ================= IF-ELSE KEYWORDS (🔥 NEW ADD) =================
+                else if (result.equals("যদি")) {   // IF keyword
+                    tokens.add(new Token(TokenType.IF, result));
+                }
+                else if (result.equals("না")) {    // ELSE keyword
+                    tokens.add(new Token(TokenType.ELSE, result));
+                }
+
+                else if (result.equals("এবং")) {
+    tokens.add(new Token(TokenType.AND, "&&"));
+}
+                
+                
+                else {
                     tokens.add(new Token(TokenType.IDENTIFIER, result));
                 }
                 continue;
             }
+
+            
 
             if (current == '=') tokens.add(new Token(TokenType.ASSIGN, "="));
             else if (current == '+') tokens.add(new Token(TokenType.PLUS, "+"));
@@ -67,6 +83,19 @@ public class Lexer {
             else if (current == '*') tokens.add(new Token(TokenType.MULTIPLY, "*"));
             else if (current == '/') tokens.add(new Token(TokenType.DIVIDE, "/"));
             else if (current == ';') tokens.add(new Token(TokenType.SEMICOLON, ";"));
+
+
+
+             // ================= COMPARISON OPERATORS (🔥 NEW ADD) =================
+            else if (current == '>') tokens.add(new Token(TokenType.GREATER, ">"));
+            else if (current == '<') tokens.add(new Token(TokenType.LESS, "<"));
+
+            // ================= BRACKETS (🔥 NEW ADD FOR IF CONDITION) =================
+            else if (current == '(') tokens.add(new Token(TokenType.LPAREN, "("));
+            else if (current == ')') tokens.add(new Token(TokenType.RPAREN, ")"));
+            else {
+    System.out.println("Warning: Unknown character -> " + current);
+}
 
             pos++;
         }
