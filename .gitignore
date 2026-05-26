@@ -1,0 +1,5 @@
+# Ignore nested local repository folder
+compiler_final_project/
+
+# Ignore compiled Java classes
+*.class
